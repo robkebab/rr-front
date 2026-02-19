@@ -1,6 +1,30 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
+
+const HEALTH_URL = "https://rr-back.vercel.zone/health";
 
 export default function Home() {
+  const [health, setHealth] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function checkHealth() {
+    setLoading(true);
+    setError(null);
+    setHealth(null);
+    try {
+      const res = await fetch(HEALTH_URL);
+      const data = await res.json().catch(() => ({ status: res.status, ok: res.ok }));
+      setHealth(JSON.stringify(data, null, 2));
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Request failed");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
@@ -33,6 +57,24 @@ export default function Home() {
             </a>{" "}
             center.
           </p>
+          <div className="flex flex-col gap-2">
+            <button
+              type="button"
+              onClick={checkHealth}
+              disabled={loading}
+              className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/8 px-5 transition-colors hover:border-transparent hover:bg-black/4 disabled:opacity-50 dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[200px]"
+            >
+              {loading ? "Checking…" : "Check rr-back health"}
+            </button>
+            {error && (
+              <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+            )}
+            {health && (
+              <pre className="max-w-md overflow-auto rounded bg-zinc-100 p-3 text-left text-sm text-zinc-800 dark:bg-zinc-900 dark:text-zinc-200">
+                {health}
+              </pre>
+            )}
+          </div>
         </div>
         <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
           <a
