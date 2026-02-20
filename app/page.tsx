@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-const FRONT_VERSION = "1.0.2";
+const FRONT_VERSION = "1.0.3";
 const VERSION_URL = "/api/version";
 
 export default function Home() {
