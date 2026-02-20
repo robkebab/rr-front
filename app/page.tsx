@@ -16,7 +16,7 @@ export default function Home() {
     setHealth(null);
     try {
       const res = await fetch(HEALTH_URL);
-      const data = await res.json().catch(() => ({ status: res.status, ok: res.ok }));
+      const data = await res.json().catch(() => ({ status: res.status, ok: res.text() }));
       setHealth(JSON.stringify(data, null, 2));
     } catch (e) {
       setError(e instanceof Error ? e.message : "Request failed");
