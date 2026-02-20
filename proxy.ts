@@ -16,6 +16,20 @@ export function proxy(request: NextRequest) {
     })
   );
 
+  if (request.nextUrl.pathname.startsWith("/api/")) {
+    const apiPath = request.nextUrl.pathname.replace(/^\/api\//, "");
+
+    // Build a new URL object to manipulate query params easily
+    const proxiedUrlObj = new URL(`https://rr-back.vercel.zone/${apiPath}${request.nextUrl.search}`);
+
+    // If rrCookie exists, add vcrrForceCanary=true to search params
+    if (rrCookie) {
+      proxiedUrlObj.searchParams.set("vcrrForceCanary", "true");
+    }
+
+    return NextResponse.redirect(proxiedUrlObj, 307);
+  }
+
   const response = NextResponse.next();
   return response;
 }

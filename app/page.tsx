@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 
-const HEALTH_URL = "https://rr-back.vercel.zone/health";
+const HEALTH_URL = "/api/health";
 
 export default function Home() {
   const [health, setHealth] = useState<string | null>(null);
