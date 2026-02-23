@@ -2,7 +2,11 @@
 
 import { useState } from "react";
 
-const FRONT_VERSION = "1.0.3";
+const FRONT_VERSION =
+  typeof process.env.NEXT_PUBLIC_VERSION === "string" &&
+  process.env.NEXT_PUBLIC_VERSION !== ""
+    ? process.env.NEXT_PUBLIC_VERSION
+    : "1.0.3";
 const VERSION_URL = "/api/version";
 
 export default function Home() {
@@ -16,8 +20,14 @@ export default function Home() {
     setBackVersion(null);
     try {
       const res = await fetch(VERSION_URL);
-      const data = await res.text();
-      setBackVersion(data);
+      const text = await res.text();
+      if (!res.ok) {
+        setError(
+          `Backend returned ${res.status}${text ? `: ${text.slice(0, 200)}` : ""}`,
+        );
+      } else {
+        setBackVersion(text);
+      }
     } catch (e) {
       setError(e instanceof Error ? e.message : "Request failed");
     } finally {
@@ -32,7 +42,8 @@ export default function Home() {
           rr-front <span className="text-zinc-400 dark:text-zinc-500">v{FRONT_VERSION}</span>
         </h1>
 
-        <div className="flex flex-col items-center gap-3">
+        <div className="flex flex-col items-center gap-4">
+          <div className="flex flex-col items-center gap-3">
           <button
             type="button"
             onClick={checkVersion}
@@ -49,6 +60,7 @@ export default function Home() {
               rr-back <span className="font-mono">{backVersion}</span>
             </p>
           )}
+          </div>
         </div>
       </main>
     </div>
