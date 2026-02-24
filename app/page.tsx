@@ -6,7 +6,7 @@ const FRONT_VERSION =
   typeof process.env.NEXT_PUBLIC_VERSION === "string" &&
     process.env.NEXT_PUBLIC_VERSION !== ""
     ? process.env.NEXT_PUBLIC_VERSION
-    : "1.0.5";
+    : "1.0.6";
 const VERSION_URL = "/api/version";
 
 export default function Home() {
