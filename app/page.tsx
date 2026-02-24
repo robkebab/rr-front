@@ -4,9 +4,9 @@ import { useState } from "react";
 
 const FRONT_VERSION =
   typeof process.env.NEXT_PUBLIC_VERSION === "string" &&
-  process.env.NEXT_PUBLIC_VERSION !== ""
+    process.env.NEXT_PUBLIC_VERSION !== ""
     ? process.env.NEXT_PUBLIC_VERSION
-    : "1.0.3";
+    : "1.0.4";
 const VERSION_URL = "/api/version";
 
 export default function Home() {
@@ -44,22 +44,22 @@ export default function Home() {
 
         <div className="flex flex-col items-center gap-4">
           <div className="flex flex-col items-center gap-3">
-          <button
-            type="button"
-            onClick={checkVersion}
-            disabled={loading}
-            className="flex h-12 items-center justify-center rounded-full border border-solid border-black/8 px-6 text-base font-medium transition-colors hover:border-transparent hover:bg-black/4 disabled:opacity-50 dark:border-white/[.145] dark:text-zinc-50 dark:hover:bg-[#1a1a1a]"
-          >
-            {loading ? "Checking…" : "Check rr-back version"}
-          </button>
-          {error && (
-            <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
-          )}
-          {backVersion && (
-            <p className="text-lg text-zinc-700 dark:text-zinc-300">
-              rr-back <span className="font-mono">{backVersion}</span>
-            </p>
-          )}
+            <button
+              type="button"
+              onClick={checkVersion}
+              disabled={loading}
+              className="flex h-12 items-center justify-center rounded-full border border-solid border-black/8 px-6 text-base font-medium transition-colors hover:border-transparent hover:bg-black/4 disabled:opacity-50 dark:border-white/[.145] dark:text-zinc-50 dark:hover:bg-[#1a1a1a]"
+            >
+              {loading ? "Checking…" : "Check rr-back version"}
+            </button>
+            {error && (
+              <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+            )}
+            {backVersion && (
+              <p className="text-lg text-zinc-700 dark:text-zinc-300">
+                rr-back <span className="font-mono">{backVersion}</span>
+              </p>
+            )}
           </div>
         </div>
       </main>
